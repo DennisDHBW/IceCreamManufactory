@@ -1,0 +1,16 @@
+﻿ingredientId,name,expirationDate,price,stockCount
+M001,Milk Ice Cream Base,2025-05-15,5.50,500
+F001,Fruit Purees,2025-06-14,3.20,300
+S001,Chocolate Chips,2025-07-14,4.75,200
+S002,Sauces,2025-08-13,2.50,150
+D001,Decorations,2025-09-12,1.80,100
+V001,Vanilla Extract,2025-05-20,6.00,250
+E001,Strawberry Puree,2025-06-20,3.50,180
+K001,Cocoa Powder,2025-07-20,5.00,220
+K002,Caramel Sauce,2025-08-20,2.75,140
+H001,Hazelnut Pieces,2025-09-20,2.00,90
+M002,Almond Flakes,2025-05-25,6.50,120
+Z001,Lemon Puree,2025-06-25,3.70,160
+H002,Raspberry Puree,2025-07-25,5.25,190
+S003,Chocolate Sauce,2025-08-25,3.00,130
+W001,Wafer Pieces,2025-09-25,2.20,110
