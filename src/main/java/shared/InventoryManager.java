@@ -32,4 +32,7 @@ public class InventoryManager {
         }
         return new InventoryManager(inventory);
     }
+
+    // validierung von rezept und menge in inventar
+
 }

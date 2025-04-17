@@ -1,4 +1,4 @@
-package shared;
+package shared.production;
 
 
 import lombok.Data;

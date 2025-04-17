@@ -1,4 +1,4 @@
-package shared;
+package shared.production;
 
 public class FreezingMachine extends Machine {
 
