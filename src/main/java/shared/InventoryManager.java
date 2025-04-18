@@ -78,6 +78,7 @@ public class InventoryManager {
             LocalDate today = LocalDate.now();
             LocalDate ingredientExpirationDate = inventory.get(ingredientId).getExpirationDate();
             String name = inventory.get(ingredientId).getName();
+            int stockCount = inventory.get(ingredientId).getStockCount();
             long difference = ingredientExpirationDate.toEpochDay() - today.toEpochDay();
 
             if (difference >= 0) {
@@ -85,6 +86,9 @@ public class InventoryManager {
             }
             else {
                 log.info("ingredient {} ({}) has been expired for {} days", ingredientId, name, Math.abs(difference));
+                inventory.remove(ingredientId);
+                log.info("ingredient {} ({}) has been removed out of inventory with stock count {}",
+                        ingredientId, name, stockCount);
             }
         }
     }
