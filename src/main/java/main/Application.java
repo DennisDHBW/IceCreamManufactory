@@ -13,16 +13,15 @@ package main;
 import lombok.extern.slf4j.Slf4j;
 import shared.InventoryManager;
 import shared.production.*;
-
-import java.util.UUID;
+import java.util.ArrayList;
 
 @Slf4j
 public class Application {
 
     public static void main(String[] args) {
         final String CSV_PATH = "src/inventory.csv";
-        InventoryManager inventoryManager = InventoryManager.create(CSV_PATH);
 
+        InventoryManager inventoryManager = InventoryManager.create(CSV_PATH);
 
         Machine[] stations = {
             new MixtureMachine("MIM001", "Mixxi 3000", "Bosch"),
@@ -33,8 +32,11 @@ public class Application {
             new DispensingMachine("DIM001", "Dispensi 3000", "Bosch")
         };
 
-
-
+        inventoryManager.importDelivery("src/inventory2.csv");
+        ArrayList<String> ingredientIds = inventoryManager.getIngredientIds();
+        inventoryManager.displayStockLevels();
+        inventoryManager.checkExpirationIngredients(ingredientIds);
+        log.info("ende");
 
 
     }
