@@ -1,19 +1,20 @@
 package main;
 
 /*
-
     Ab 20 Minuten stillstand --> Termin vereinbaren und Hilfe anfordern
     Teams mit Matrikelnummer anmelden
-
     Lineare Maschinen --> Auslastung auf Basis der benutzen Maschinen
-
-
  */
 
+import ingredient.Ingredient;
 import lombok.extern.slf4j.Slf4j;
+import receipt.Receipt;
 import shared.InventoryManager;
+import shared.ReceiptManager;
+import shared.Stack;
 import shared.production.*;
 import java.util.ArrayList;
+import java.util.Map;
 
 @Slf4j
 public class Application {
@@ -36,14 +37,15 @@ public class Application {
         ArrayList<String> ingredientIds = inventoryManager.getIngredientIds();
         inventoryManager.displayStockLevels();
         inventoryManager.checkExpirationIngredients(ingredientIds);
+
+        ReceiptManager receiptManager = ReceiptManager.create("src/receipts.csv");
+        ArrayList<String> receiptIds = receiptManager.getReceiptIds();
+        Receipt receipt1 = receiptManager.getReceipts().get(receiptIds.getFirst());
+        Map<String, String> requiredIngredients = receipt1.getIngredientHashMap();
+        //Stack<Ingredient> container = new Stack<Ingredient>(requiredIngredients.size());
         log.info("ende");
 
 
     }
-
-
-
-
-
 
 }
