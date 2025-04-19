@@ -1,4 +1,4 @@
-package shared.production;
+package production;
 
 
 import lombok.Data;
@@ -16,4 +16,6 @@ public abstract class Machine {
         this.model = model;
         this.manufacturer = manufacturer;
     }
+
+
 }

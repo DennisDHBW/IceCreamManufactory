@@ -1,6 +1,5 @@
-package shared;
+package ingredient;
 
-import ingredient.Ingredient;
 import lombok.Data;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -13,11 +12,11 @@ import java.util.*;
 
 @Slf4j
 @Data
-public class InventoryManager {
+public class IngredientManager {
     private final Map<String, Ingredient> inventory;
 
     @SneakyThrows
-    public static InventoryManager create(String csvPath) {
+    public static IngredientManager create(String csvPath) {
         Map<String, Ingredient> inventory = new HashMap<>();
         try (BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(csvPath))){
             bufferedReader.lines().skip(1).forEach(line -> {
@@ -31,12 +30,12 @@ public class InventoryManager {
                         .build());
             });
         }
-        return new InventoryManager(inventory);
+        return new IngredientManager(inventory);
     }
 
 
     @SneakyThrows
-    public InventoryManager importDelivery(String csvPath) {
+    public IngredientManager importDelivery(String csvPath) {
         try (BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(csvPath))){
             bufferedReader.lines().skip(1).forEach(line -> {
                 String[] data = line.split(",");
@@ -59,7 +58,7 @@ public class InventoryManager {
                 );
             });
         }
-        return new InventoryManager(inventory);
+        return new IngredientManager(inventory);
     }
 
     public ArrayList<String> getIngredientIds() {

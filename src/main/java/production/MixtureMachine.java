@@ -1,4 +1,4 @@
-package shared.production;
+package production;
 
 public class MixtureMachine extends Machine {
     public MixtureMachine(String id, String model, String manufacturer) {

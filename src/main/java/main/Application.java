@@ -6,13 +6,11 @@ package main;
     Lineare Maschinen --> Auslastung auf Basis der benutzen Maschinen
  */
 
-import ingredient.Ingredient;
 import lombok.extern.slf4j.Slf4j;
 import receipt.Receipt;
-import shared.InventoryManager;
-import shared.ReceiptManager;
-import shared.Stack;
-import shared.production.*;
+import ingredient.IngredientManager;
+import receipt.ReceiptManager;
+import production.*;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -22,7 +20,7 @@ public class Application {
     public static void main(String[] args) {
         final String CSV_PATH = "src/inventory.csv";
 
-        InventoryManager inventoryManager = InventoryManager.create(CSV_PATH);
+        IngredientManager inventoryManager = IngredientManager.create(CSV_PATH);
 
         Machine[] stations = {
             new MixtureMachine("MIM001", "Mixxi 3000", "Bosch"),
@@ -41,7 +39,7 @@ public class Application {
         ReceiptManager receiptManager = ReceiptManager.create("src/receipts.csv");
         ArrayList<String> receiptIds = receiptManager.getReceiptIds();
         Receipt receipt1 = receiptManager.getReceipts().get(receiptIds.getFirst());
-        Map<String, String> requiredIngredients = receipt1.getIngredientHashMap();
+        Map<String, Integer> requiredIngredients = receipt1.getIngredientHashMap();
         //Stack<Ingredient> container = new Stack<Ingredient>(requiredIngredients.size());
         log.info("ende");
 
