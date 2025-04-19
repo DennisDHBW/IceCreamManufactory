@@ -19,43 +19,43 @@ public class ReceiptManager {
 
     private final Map<String, Receipt> receipts;
 
+
+
     @SneakyThrows
     public static ReceiptManager create(String csvPath) {
         Map<String, Receipt> receipts = new HashMap<>();
-        try (BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(csvPath))){
 
-            /*  1. Unique Ids von CSV (bufferReader)
-                2. Loop durch IDs
-                    2.1 Loop durch Lines, wenn ID = receipt ID dann HashMap<String,Integer> .add
-                    2.2 Receipt erstellen
-                3. ArrayList<Receipt> erstellen
-                4. return new ReceiptManager(receipts);
-             */
-
-
-            //Set<String> receiptIds = new HashSet<>(Arrays.asList(bufferedReader.lines().skip(1)));
-
+        try (BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(csvPath))) {
             bufferedReader.lines().skip(1).forEach(line -> {
                 String[] data = line.split(",");
 
+                String id = data[0];
+                String name = data[1];
+                double price = Double.parseDouble(data[2]);
+                String ingredientId = data[3];
+                int ingredientCount = Integer.parseInt(data[4]);
 
-                HashMap<String, Integer> ingredientsWithCount = new HashMap<>();
+                // Wenn Rezept schon existiert → Zutatenliste erweitern
+                Receipt existing = receipts.get(id);
+                if (existing != null) {
+                    existing.getIngredients().put(ingredientId, ingredientCount);
+                } else {
+                    // Neue Zutatenliste anlegen
+                    Map<String, Integer> ingredients = new HashMap<>();
+                    ingredients.put(ingredientId, ingredientCount);
 
+                    Receipt newReceipt = Receipt.builder()
+                            .id(id)
+                            .name(name)
+                            .price(price)
+                            .ingredients(ingredients)
+                            .build();
 
-                /*for (String receiptId : receiptIds) {
-                    for (String csvLine : data){}
-
-                    }
-                }*/
-
-                receipts.put(data[0], Receipt.builder()
-                        .id(data[0])
-                        .name(data[1])
-                        .price(Double.parseDouble(data[2]))
-                        .ingredients(data[3])
-                        .build());
+                    receipts.put(id, newReceipt);
+                }
             });
         }
+
         return new ReceiptManager(receipts);
     }
 

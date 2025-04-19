@@ -2,16 +2,18 @@ package receipt;
 
 import ingredient.Ingredient;
 import lombok.Builder;
+import lombok.Data;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Builder
+@Data
 public class Receipt {
     private String id;
     private String name;
     private Double price;
-    private String ingredients;
+    private Map<String, Integer> ingredients;
 
 
     /*public Map<String, Integer> getIngredientHashMap() {
@@ -22,7 +24,7 @@ public class Receipt {
     }*/
 
 
-    public Map<String, Integer> getIngredientHashMap() {
+    /*public Map<String, Integer> getIngredientHashMap() {
         String[] singleComponents = this.ingredients.split(";");
         Map<String, Integer> componentsWithCount = new HashMap<>();
 
@@ -31,7 +33,7 @@ public class Receipt {
             componentsWithCount.put(splitedInformation[0], Integer.parseInt(splitedInformation[1]));
         }
         return componentsWithCount;
-    }
+    }*/
 
     public Receipt getReceiptFromCustomisedOrder(HashMap<Ingredient, Integer> ingredientsWithCount) {
 

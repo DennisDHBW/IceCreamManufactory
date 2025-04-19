@@ -39,7 +39,7 @@ public class Application {
         ReceiptManager receiptManager = ReceiptManager.create("src/receipts.csv");
         ArrayList<String> receiptIds = receiptManager.getReceiptIds();
         Receipt receipt1 = receiptManager.getReceipts().get(receiptIds.getFirst());
-        Map<String, Integer> requiredIngredients = receipt1.getIngredientHashMap();
+        //Map<String, Integer> requiredIngredients = receipt1.getIngredientHashMap();
         //Stack<Ingredient> container = new Stack<Ingredient>(requiredIngredients.size());
         log.info("ende");
 
