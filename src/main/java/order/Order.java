@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Order {
-    private int orderId;
+    private static int orderId = 0;
     private Customer customer;
     private ArrayList<Receipt> receipts;
 
@@ -17,7 +17,6 @@ public class Order {
     }
 
     /*public Receipt customisedOrder(HashMap<Ingredient, Integer> ingredientsWithCount) {
-
         return receipt;
     }*/
 }

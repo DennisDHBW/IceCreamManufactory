@@ -3,7 +3,6 @@ package receipt;
 import ingredient.Ingredient;
 import lombok.Builder;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +12,15 @@ public class Receipt {
     private String name;
     private Double price;
     private String ingredients;
+
+
+    /*public Map<String, Integer> getIngredientHashMap() {
+        String[] singleComponents;
+        Map<String, Integer> componentsWithCount = new HashMap<>();
+
+        return componentsWithCount;
+    }*/
+
 
     public Map<String, Integer> getIngredientHashMap() {
         String[] singleComponents = this.ingredients.split(";");

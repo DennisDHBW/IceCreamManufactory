@@ -1,2 +1,7 @@
-﻿receiptId,name,price,ingredients
-ICE001,HazelnutIceCream,1.00,M001/5;M001/3
+﻿receiptId,name,price,ingredientId,ingredientStockCount
+ICE001,HazelnutIceCream,1.00,M001,1
+ICE001,HazelnutIceCream,1.00,H001,2
+ICE001,HazelnutIceCream,1.00,K002,23
+ICE002,IceSupreme,1.00,H002,4
+ICE002,IceSupreme,1.00,Z001,5
+ICE002,IceSupreme,1.00,H001,6
