@@ -23,9 +23,22 @@ public class ReceiptManager {
     public static ReceiptManager create(String csvPath) {
         Map<String, Receipt> receipts = new HashMap<>();
         try (BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(csvPath))){
+
+            /*  1. Unique Ids von CSV (bufferReader)
+                2. Loop durch IDs
+                    2.1 Loop durch Lines, wenn ID = receipt ID dann HashMap<String,Integer> .add
+                    2.2 Receipt erstellen
+                3. ArrayList<Receipt> erstellen
+                4. return new ReceiptManager(receipts);
+             */
+
+
+            //Set<String> receiptIds = new HashSet<>(Arrays.asList(bufferedReader.lines().skip(1)));
+
             bufferedReader.lines().skip(1).forEach(line -> {
                 String[] data = line.split(",");
-                Set<String> receiptIds = new HashSet<>(Arrays.asList(data));
+
+
                 HashMap<String, Integer> ingredientsWithCount = new HashMap<>();
 
 
