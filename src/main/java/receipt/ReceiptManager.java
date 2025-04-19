@@ -19,8 +19,6 @@ public class ReceiptManager {
 
     private final Map<String, Receipt> receipts;
 
-
-
     @SneakyThrows
     public static ReceiptManager create(String csvPath) {
         Map<String, Receipt> receipts = new HashMap<>();
@@ -55,7 +53,6 @@ public class ReceiptManager {
                 }
             });
         }
-
         return new ReceiptManager(receipts);
     }
 

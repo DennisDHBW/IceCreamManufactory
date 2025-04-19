@@ -13,5 +13,4 @@ public class Ingredient {
     private LocalDate expirationDate;
     private Double price;
     private int stockCount;
-
 }

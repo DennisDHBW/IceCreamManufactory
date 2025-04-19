@@ -6,13 +6,20 @@ package main;
     Lineare Maschinen --> Auslastung auf Basis der benutzen Maschinen
  */
 
+import customer.Customer;
+import ingredient.Ingredient;
 import lombok.extern.slf4j.Slf4j;
+import order.Order;
 import receipt.Receipt;
 import ingredient.IngredientManager;
 import receipt.ReceiptManager;
 import production.*;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Slf4j
 public class Application {
@@ -38,11 +45,34 @@ public class Application {
 
         ReceiptManager receiptManager = ReceiptManager.create("src/receipts.csv");
         ArrayList<String> receiptIds = receiptManager.getReceiptIds();
-        Receipt receipt1 = receiptManager.getReceipts().get(receiptIds.getFirst());
-        //Map<String, Integer> requiredIngredients = receipt1.getIngredientHashMap();
-        //Stack<Ingredient> container = new Stack<Ingredient>(requiredIngredients.size());
-        log.info("ende");
 
+        // customized receipt 1
+        HashMap<String, Integer> ingredientsForCustomOrder1 = new HashMap<>();
+        ingredientsForCustomOrder1.put("M001", 1);
+        ingredientsForCustomOrder1.put("F001", 2);
+        ingredientsForCustomOrder1.put("S001", 3);
+        ingredientsForCustomOrder1.put("S002", 4);
+        Receipt customizedReceipt1 = Order.getCustomReceipt(ingredientsForCustomOrder1);
+
+        // customized receipt 2
+        HashMap<String, Integer> ingredientsForCustomOrder2 = new HashMap<>();
+        ingredientsForCustomOrder2.put("M001", 5);
+        ingredientsForCustomOrder2.put("D001", 6);
+        ingredientsForCustomOrder2.put("V001", 7);
+        ingredientsForCustomOrder2.put("E001", 8);
+        Receipt customizedReceipt2 = Order.getCustomReceipt(ingredientsForCustomOrder2);
+
+        // build order
+        Receipt receiptHazelnutIceCream = receiptManager.getReceipts().get(receiptIds.getFirst());
+        ArrayList<Receipt> receiptsForOrder = new ArrayList<>();
+        receiptsForOrder.add(receiptHazelnutIceCream);
+        receiptsForOrder.add(customizedReceipt1);
+        receiptsForOrder.add(customizedReceipt2);
+        Order order1 = Order.builder()
+                .receipts(receiptsForOrder)
+                .build();
+
+        log.info("Order 1: " + order1);
 
     }
 
