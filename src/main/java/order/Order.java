@@ -2,6 +2,7 @@
 
 package order;
 
+import container.Container;
 import container.ContainerType;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 public class Order {
     private static int orderId = 0;
     private ArrayList<Receipt> receipts;
+    @Builder.Default private ArrayList<Container> containers = new ArrayList<>();
 
     public void add(Receipt receipt) {
         this.receipts.add(receipt);
@@ -39,4 +41,5 @@ public class Order {
                 .build();
         return order;
     }
+
 }

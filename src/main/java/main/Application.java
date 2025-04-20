@@ -6,19 +6,29 @@ import receipt.Receipt;
 import ingredient.IngredientManager;
 import receipt.ReceiptManager;
 import production.*;
+import customer.CustomerManager;
+import customer.Customer;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @Slf4j
 public class Application {
 
     public static void main(String[] args) {
-        final String CSV_PATH = "src/inventory.csv";
+        final String INVENTORY_CSV_PATH = "src/inventory.csv";
+        final String RECEIPTS_CSV_PATH = "src/receipts.csv";
+        final String DELIVERY_CSV_PATH = "src/inventory2.csv";
+        final String INVENTORY_BACKUP_CSV = "src/inventory_backup.csv";
+        final int CUSTOMER_COUNT = 5;
 
-        IngredientManager ingredientManager = IngredientManager.create(CSV_PATH);
-        ReceiptManager receiptManager = ReceiptManager.create("src/receipts.csv");
+        // Initialize ingredient and recipe management
+        IngredientManager ingredientManager = IngredientManager.create(INVENTORY_CSV_PATH);
+        ReceiptManager receiptManager = ReceiptManager.create(RECEIPTS_CSV_PATH);
 
-        Machine[] stations = {
+        // Create production line with fixed stations
+        Machine[] productionLine = {
             new MixtureMachine("MIM001", "Mixxi 3000", "Bosch"),
             new PasteurisingMachine("PAM001", "Pasteuri 3000", "Bosch"),
             new FreezingMachine("FRM001", "Freezi 3000", "Bosch"),
@@ -27,51 +37,37 @@ public class Application {
             new DispensingMachine("DIM001", "Dispensi 3000", "Bosch")
         };
 
-        ingredientManager.importDelivery("src/inventory2.csv");
+        // Import new inventory delivery
+        ingredientManager.importDelivery(DELIVERY_CSV_PATH);
+        
+        // Display and check inventory
         ArrayList<String> ingredientIds = ingredientManager.getIngredientIds();
         ingredientManager.displayStockLevels();
-        ingredientManager.checkExpirationIngredients(ingredientIds);
+        ingredientManager.checkExpirationIngredients();
 
+        // Get available recipes
         ArrayList<String> receiptIds = receiptManager.getReceiptIds();
+        log.info("Available recipes: {}", receiptManager.getReceipts().size());
 
-        // customized receipt 1
-        HashMap<String, Integer> ingredientsForCustomOrder1 = new HashMap<>();
-        ingredientsForCustomOrder1.put("M001", 1);
-        ingredientsForCustomOrder1.put("F001", 2);
-        ingredientsForCustomOrder1.put("S001", 3);
-        ingredientsForCustomOrder1.put("S002", 4);
-        Receipt customizedReceipt1 = Receipt.getCustomReceipt(ingredientsForCustomOrder1);
+        // Create customer queue
+        CustomerManager customerManager = new CustomerManager(ingredientIds, CUSTOMER_COUNT);
+        log.info("Customer queue size: {}", customerManager.getQueueSize());
 
-        // customized receipt 2
-        HashMap<String, Integer> ingredientsForCustomOrder2 = new HashMap<>();
-        ingredientsForCustomOrder2.put("M001", 5);
-        ingredientsForCustomOrder2.put("D001", 6);
-        ingredientsForCustomOrder2.put("V001", 7);
-        ingredientsForCustomOrder2.put("E001", 8);
-        Receipt customizedReceipt2 = Receipt.getCustomReceipt(ingredientsForCustomOrder2);
-
-        // build example order
-        Receipt receiptHazelnutIceCream = receiptManager.getReceipts().get(receiptIds.getFirst());
-        ArrayList<Receipt> receiptsForOrder = new ArrayList<>();
-        receiptsForOrder.add(receiptHazelnutIceCream);
-        receiptsForOrder.add(customizedReceipt1);
-        receiptsForOrder.add(customizedReceipt2);
-        Order order1 = Order.builder()
-                .receipts(receiptsForOrder)
-                .build();
-
-        // collect orders
-        ArrayList<Order> orders = new ArrayList<>();
-        orders.add(order1);
-
-        // produce orders
-        for(Order order : orders) {
-            for (Machine machine : stations) {
+        // Process customers from queue
+        Customer customer;
+        while ((customer = customerManager.getNextCustomer()) != null) {
+            log.info("Processing customer: {}", customer.getName());
+            Order customerOrder = customer.getOrder();
+            
+            // Process the order through each machine in the production line
+            for (Machine machine : productionLine) {
                 log.info("==== STARTING {} ====", machine.getClass().getSimpleName().toUpperCase());
-                machine.startOrder(order1, ingredientManager);
+                machine.startOrder(customerOrder, ingredientManager);
             }
         }
-        log.info("end");
 
+        // Save updated inventory status
+        ingredientManager.saveInventoryToCSV(INVENTORY_BACKUP_CSV);
+        log.info("Ice cream production completed");
     }
 }

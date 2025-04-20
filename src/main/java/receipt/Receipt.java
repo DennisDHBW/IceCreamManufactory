@@ -6,11 +6,12 @@ import lombok.Data;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Builder
 @Data
 public class Receipt {
-    public static final int MAX_INGREDIENT_COUNT = 15;
+    public static final int MAX_INGREDIENT_COUNT = 30;
     private static int customOrderId = 0;
     private String id;
     private String name;
@@ -27,15 +28,24 @@ public class Receipt {
     }
 
     public static Receipt getCustomReceipt(HashMap<String, Integer> ingredientsWithCount) {
+        ContainerType type = Math.random() > 0.5 ? ContainerType.CONE : ContainerType.SUNDAE;
+        double calculatedPrice = calculatePrice(ingredientsWithCount);
+        
         Receipt receipt = Receipt.builder()
                 .id("CUS" + String.format("%03d", ++customOrderId))
                 .name("Customised Order")
-                .price(5.00)
+                .price(calculatedPrice)
                 .ingredientsWithCount(ingredientsWithCount)
-                .containerType(ContainerType.CONE)
+                .containerType(type)
                 .build();
         return receipt;
     }
-
-
+    
+    private static double calculatePrice(HashMap<String, Integer> ingredients) {
+        // Base price
+        double basePrice = 2.50;
+        
+        // Add 1.00 for each ingredient
+        return basePrice + ingredients.size() * 1.00;
+    }
 }

@@ -37,6 +37,11 @@ public abstract class Machine {
     }
 
     private void calculateUtilisation() {
+        if (order == null || order.getReceipts() == null) {
+            this.utilisationPercentage = 0.0;
+            return;
+        }
+        
         int orderFillCount = 0;
         for (Receipt receipt : order.getReceipts()) {
             orderFillCount += receipt.getTotalIngredientCount();
@@ -55,15 +60,9 @@ public abstract class Machine {
             this.processOrder(ingredientManager);
         }
         else {
-            log.info("the order is too big for our capacity.");
+            log.info("The order is too big for our capacity.");
         }
-
-
-
-
     }
 
-    protected void processOrder(IngredientManager ingredientManager) {
-    }
-
+    protected abstract void processOrder(IngredientManager ingredientManager);
 }
