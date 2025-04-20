@@ -1,7 +1,6 @@
 package customer;
 
 import order.Order;
-import shared.MyStack;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -48,11 +47,6 @@ public class CustomerManager {
             return null;
         }
         return customerQueue.poll();
-    }
-
-    public void addCustomer(Customer customer) {
-        customerQueue.offer(customer);
-        log.info("Added new customer: {} to queue", customer.getName());
     }
 
     public int getQueueSize() {

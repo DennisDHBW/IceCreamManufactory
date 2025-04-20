@@ -1,0 +1,19 @@
+﻿id,name,expirationDate,price,stockCount
+M001,Milk Base,2025-12-31,2.50,50
+M002,Dairy Free Base,2025-12-31,3.50,25
+F001,Strawberry Puree,2025-06-30,1.20,40
+F002,Banana Puree,2025-05-30,1.00,35
+F003,Chocolate Chunks,2026-01-15,1.50,30
+F004,Vanilla Bean,2025-11-30,2.00,20
+S001,Caramel Sauce,2025-10-15,1.80,25
+S002,Chocolate Sauce,2025-10-15,1.80,25
+S003,Strawberry Sauce,2025-09-30,1.80,25
+S004,Maple Syrup,2025-12-31,2.20,15
+D001,Sprinkles,2026-03-31,0.50,100
+D002,Chocolate Chips,2026-02-28,0.60,90
+D003,Chopped Nuts,2025-12-31,0.90,75
+D004,Whipped Cream,2025-05-15,0.70,50
+D005,Maraschino Cherry,2025-08-31,0.30,150
+C001,Waffle Cone,2025-07-31,0.40,125
+C002,Sugar Cone,2025-07-31,0.35,125
+C003,Chocolate Dipped Cone,2025-06-30,0.85,50

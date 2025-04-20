@@ -6,7 +6,6 @@ import lombok.Data;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @Builder
 @Data
@@ -30,15 +29,14 @@ public class Receipt {
     public static Receipt getCustomReceipt(HashMap<String, Integer> ingredientsWithCount) {
         ContainerType type = Math.random() > 0.5 ? ContainerType.CONE : ContainerType.SUNDAE;
         double calculatedPrice = calculatePrice(ingredientsWithCount);
-        
-        Receipt receipt = Receipt.builder()
+
+        return Receipt.builder()
                 .id("CUS" + String.format("%03d", ++customOrderId))
                 .name("Customised Order")
                 .price(calculatedPrice)
                 .ingredientsWithCount(ingredientsWithCount)
                 .containerType(type)
                 .build();
-        return receipt;
     }
     
     private static double calculatePrice(HashMap<String, Integer> ingredients) {

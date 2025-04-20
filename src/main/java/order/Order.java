@@ -1,45 +1,51 @@
-// !! PREIS VARIABEL BERECHNET !!
-
 package order;
 
 import container.Container;
-import container.ContainerType;
 import lombok.Builder;
 import lombok.Data;
 import receipt.Receipt;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 @Builder
 @Data
 public class Order {
-    private static int orderId = 0;
+    private String id;
     private ArrayList<Receipt> receipts;
     @Builder.Default private ArrayList<Container> containers = new ArrayList<>();
+
+    public Order(String id, ArrayList<Receipt> receipts, ArrayList<Container> containers) {
+        this.id = id;
+        this.receipts = receipts;
+        this.containers = containers;
+    }
 
     public void add(Receipt receipt) {
         this.receipts.add(receipt);
     }
 
     public static Order generateSampleOrder() {
-        ArrayList<Order> orders = new ArrayList<>();
+        // Generate a random order ID
+        String orderId = "ORD-" + UUID.randomUUID().toString().substring(0, 6);
 
-        // customized receipt 1
-        HashMap<String, Integer> ingredientsForCustomOrder1 = new HashMap<>();
-        ingredientsForCustomOrder1.put("M001", 1);
-        ingredientsForCustomOrder1.put("F001", 2);
-        ingredientsForCustomOrder1.put("S001", 3);
-        ingredientsForCustomOrder1.put("S002", 4);
-        Receipt customizedReceipt1 = Receipt.getCustomReceipt(ingredientsForCustomOrder1);
+        // Create custom receipt with ingredients
+        HashMap<String, Integer> ingredientsForCustomOrder = new HashMap<>();
+        ingredientsForCustomOrder.put("M001", 1); // Milk base
+        ingredientsForCustomOrder.put("F001", 2); // Fruit ingredient
+        ingredientsForCustomOrder.put("S001", 1); // Sauce
+        ingredientsForCustomOrder.put("S002", 1); // Another sauce
+        ingredientsForCustomOrder.put("D001", 1); // Decoration
+        Receipt customizedReceipt = Receipt.getCustomReceipt(ingredientsForCustomOrder);
 
         // build order
         ArrayList<Receipt> receiptsForOrder = new ArrayList<>();
-        receiptsForOrder.add(customizedReceipt1);
-        Order order = Order.builder()
+        receiptsForOrder.add(customizedReceipt);
+
+        return Order.builder()
+                .id(orderId)
                 .receipts(receiptsForOrder)
                 .build();
-        return order;
     }
-
 }

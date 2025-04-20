@@ -138,20 +138,15 @@ public class IngredientManager {
         }
     }
 
-    public void reduceStockCountForReceipt(Receipt receipt) {
-        for (Map.Entry<String, Integer> ingredientWithCount : receipt.getIngredientsWithCount().entrySet()) {
-            reduceStockCount(ingredientWithCount.getKey(), ingredientWithCount.getValue());
-        }
-    }
 
     public boolean isReceiptProcessable(Receipt receipt) {
         for (Map.Entry<String, Integer> ingredientWithCount : receipt.getIngredientsWithCount().entrySet()) {
             if (!(isIngredientAvailable(ingredientWithCount.getKey(), ingredientWithCount.getValue()))) {
                 log.info("receipt {} ({}) is not available", receipt.getName(), receipt.getId());
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     private boolean isIngredientAvailable(String ingredientId, int requiredStockCount) {

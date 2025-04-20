@@ -1,10 +1,19 @@
 id,name,expirationDate,price,stockCount
-C002,White Chocolate Chips,2025-05-14,4,75,400
-C001,Dark Chocolate Chips,2025-05-14,4,75,400
-D002,Big Waffle Decoration,2025-09-12,2,80,200
-D001,Small Waffle Decoration,2025-09-12,1,80,200
-M001,Milk Ice Cream Base,2025-05-15,5,50,995
-S001,Chocolate Sauce,2025-08-13,2,50,270
-S002,Vanilla Sauce,2025-08-13,3,50,260
-F001,Strawberry Fruit Puree,2025-06-14,3,20,590
-F002,Raspberry Fruit Puree,2025-06-14,4,20,600
+M002,Dairy Free Base,2025-12-31,3,50,75
+S003,Strawberry Sauce,2025-09-30,1,80,70
+M001,Milk Base,2025-12-31,2,50,145
+S004,Maple Syrup,2025-12-31,2,20,45
+F001,Strawberry Puree,2025-06-30,1,20,110
+F002,Banana Puree,2025-05-30,1,00,105
+F003,Chocolate Chunks,2026-01-15,1,50,90
+F004,Vanilla Bean,2025-11-30,2,00,60
+D005,Maraschino Cherry,2025-08-31,0,30,450
+D004,Whipped Cream,2025-05-15,0,70,150
+C003,Chocolate Dipped Cone,2025-06-30,0,85,150
+D003,Chopped Nuts,2025-12-31,0,90,225
+C002,Sugar Cone,2025-07-31,0,35,375
+D002,Chocolate Chips,2026-02-28,0,60,270
+C001,Waffle Cone,2025-07-31,0,40,375
+D001,Sprinkles,2026-03-31,0,50,295
+S001,Caramel Sauce,2025-10-15,1,80,65
+S002,Chocolate Sauce,2025-10-15,1,80,65

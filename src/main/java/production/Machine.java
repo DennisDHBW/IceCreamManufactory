@@ -23,7 +23,6 @@ public abstract class Machine {
     protected int totalFillCount;
     protected double utilisationPercentage;
 
-
     public Machine(String id, String model, String manufacturer) {
         this.id = id;
         this.model = model;
@@ -41,7 +40,7 @@ public abstract class Machine {
             this.utilisationPercentage = 0.0;
             return;
         }
-        
+
         int orderFillCount = 0;
         for (Receipt receipt : order.getReceipts()) {
             orderFillCount += receipt.getTotalIngredientCount();
@@ -57,6 +56,7 @@ public abstract class Machine {
 
         if(this.utilisationPercentage > 0.0) {
             this.status = MachineStatus.IN_PROCESS;
+            log.info("Machine {} ({}) started processing order", this.id, this.model);
             this.processOrder(ingredientManager);
         }
         else {

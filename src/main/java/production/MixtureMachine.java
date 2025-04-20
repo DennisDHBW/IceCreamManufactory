@@ -19,7 +19,7 @@ public class MixtureMachine extends Machine {
         ArrayList<Receipt> unavailableReceipts = new ArrayList<>();
         
         for (Receipt receipt : receipts) {
-            if (!ingredientManager.isReceiptProcessable(receipt)) {
+            if (ingredientManager.isReceiptProcessable(receipt)) {
                 unavailableReceipts.add(receipt);
                 continue;
             }

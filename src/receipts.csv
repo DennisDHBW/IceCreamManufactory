@@ -1,7 +1,35 @@
-﻿receiptId,name,price,ingredientId,ingredientStockCount
-ICE001,HazelnutIceCream,1.00,M001,1
-ICE001,HazelnutIceCream,1.00,H001,2
-ICE001,HazelnutIceCream,1.00,F001,3
-ICE002,IceSupreme,1.00,H002,4
-ICE002,IceSupreme,1.00,C001,5
-ICE002,IceSupreme,1.00,S001,6
+﻿id,name,price,ingredientId,count,containerType
+RCP001,Vanilla Sundae,3.50,M001,2,SUNDAE
+RCP001,Vanilla Sundae,3.50,F004,1,SUNDAE
+RCP001,Vanilla Sundae,3.50,S001,1,SUNDAE
+RCP001,Vanilla Sundae,3.50,D004,1,SUNDAE
+RCP001,Vanilla Sundae,3.50,D005,1,SUNDAE
+RCP002,Chocolate Deluxe,4.50,M001,2,SUNDAE
+RCP002,Chocolate Deluxe,4.50,F003,2,SUNDAE
+RCP002,Chocolate Deluxe,4.50,S002,1,SUNDAE
+RCP002,Chocolate Deluxe,4.50,D002,1,SUNDAE
+RCP002,Chocolate Deluxe,4.50,D004,1,SUNDAE
+RCP003,Strawberry Dream,4.00,M001,2,SUNDAE
+RCP003,Strawberry Dream,4.00,F001,2,SUNDAE
+RCP003,Strawberry Dream,4.00,S003,1,SUNDAE
+RCP003,Strawberry Dream,4.00,D001,1,SUNDAE
+RCP003,Strawberry Dream,4.00,D004,1,SUNDAE
+RCP003,Strawberry Dream,4.00,D005,1,SUNDAE
+RCP004,Banana Split,5.50,M001,2,SUNDAE
+RCP004,Banana Split,5.50,F002,2,SUNDAE
+RCP004,Banana Split,5.50,F001,1,SUNDAE
+RCP004,Banana Split,5.50,S001,1,SUNDAE
+RCP004,Banana Split,5.50,S002,1,SUNDAE
+RCP004,Banana Split,5.50,D004,1,SUNDAE
+RCP004,Banana Split,5.50,D005,2,SUNDAE
+RCP005,Vanilla Cone,3.00,M001,2,CONE
+RCP005,Vanilla Cone,3.00,F004,1,CONE
+RCP005,Vanilla Cone,3.00,C001,1,CONE
+RCP006,Chocolate Cone,3.00,M001,2,CONE
+RCP006,Chocolate Cone,3.00,F003,1,CONE
+RCP006,Chocolate Cone,3.00,C001,1,CONE
+RCP007,Special Cone,4.50,M001,2,CONE
+RCP007,Special Cone,4.50,F001,1,CONE
+RCP007,Special Cone,4.50,S002,1,CONE
+RCP007,Special Cone,4.50,D002,1,CONE
+RCP007,Special Cone,4.50,C003,1,CONE

@@ -1,5 +1,5 @@
 package container;
 
 public enum ContainerType {
-    SUNDAE, CONE;
+    SUNDAE, CONE
 }

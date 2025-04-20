@@ -15,6 +15,10 @@ import java.util.*;
 public class ReceiptManager {
     private final Map<String, Receipt> receipts;
 
+    public ReceiptManager(Map<String, Receipt> receipts) {
+        this.receipts = receipts;
+    }
+
     @SneakyThrows
     public static ReceiptManager create(String csvPath) {
         Map<String, Receipt> receipts = new HashMap<>();
@@ -58,14 +62,17 @@ public class ReceiptManager {
         return new ReceiptManager(receipts);
     }
 
-    public ArrayList<String> getReceiptIds() {
-        return new ArrayList<>(receipts.keySet());
+    public void displayAvailableRecipes() {
+        log.info("--- Available Recipes ---");
+        for (Receipt receipt : receipts.values()) {
+            log.info("{} ({}): €{} - {} ingredients",
+                    receipt.getName(),
+                    receipt.getId(),
+                    receipt.getPrice(),
+                    receipt.getIngredientsWithCount().size());
+        }
     }
-    
-    public Receipt getReceipt(String receiptId) {
-        return receipts.get(receiptId);
-    }
-    
+
     public Receipt createCustomReceipt(Map<String, Integer> ingredients, ContainerType containerType) {
         return Receipt.builder()
                 .id("CUS" + UUID.randomUUID().toString().substring(0, 8))
@@ -75,13 +82,13 @@ public class ReceiptManager {
                 .containerType(containerType)
                 .build();
     }
-    
+
     private double calculateCustomPrice(Map<String, Integer> ingredients) {
         double basePrice = 2.0;
-        
+
         // Add up ingredient quantities
         int totalIngredients = ingredients.values().stream().mapToInt(Integer::intValue).sum();
-        
+
         return basePrice + (totalIngredients * 0.5);
     }
 }
