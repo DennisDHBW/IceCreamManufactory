@@ -13,6 +13,18 @@ public class Receipt {
     private String id;
     private String name;
     private Double price;
-    private Map<String, Integer> ingredients;
+    private static int customOrderId = 0;
+    private Map<String, Integer> ingredientsWithCount;
+
+    public static Receipt getCustomReceipt(HashMap<String, Integer> ingredientsWithCount) {
+        Receipt receipt = Receipt.builder()
+                .id("CUS" + String.format("%03d", ++customOrderId))
+                .name("Customised Order")
+                .price(5.00)
+                .ingredientsWithCount(ingredientsWithCount)
+                .build();
+        return receipt;
+    }
+
 
 }

@@ -36,7 +36,7 @@ public class ReceiptManager {
                 // Wenn Rezept schon existiert → Zutatenliste erweitern
                 Receipt existing = receipts.get(id);
                 if (existing != null) {
-                    existing.getIngredients().put(ingredientId, ingredientCount);
+                    existing.getIngredientsWithCount().put(ingredientId, ingredientCount);
                 } else {
                     // Neue Zutatenliste anlegen
                     Map<String, Integer> ingredients = new HashMap<>();
@@ -46,7 +46,7 @@ public class ReceiptManager {
                             .id(id)
                             .name(name)
                             .price(price)
-                            .ingredients(ingredients)
+                            .ingredientsWithCount(ingredients)
                             .build();
 
                     receipts.put(id, newReceipt);

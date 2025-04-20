@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Builder
 public class Customer {
-    private UUID uuid;
+    private UUID customerId;
     private Order order;
 
     // 1:n association - unidirectional

@@ -6,20 +6,14 @@ package main;
     Lineare Maschinen --> Auslastung auf Basis der benutzen Maschinen
  */
 
-import customer.Customer;
-import ingredient.Ingredient;
 import lombok.extern.slf4j.Slf4j;
 import order.Order;
 import receipt.Receipt;
 import ingredient.IngredientManager;
 import receipt.ReceiptManager;
 import production.*;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 @Slf4j
 public class Application {
@@ -27,7 +21,8 @@ public class Application {
     public static void main(String[] args) {
         final String CSV_PATH = "src/inventory.csv";
 
-        IngredientManager inventoryManager = IngredientManager.create(CSV_PATH);
+        IngredientManager ingredientManager = IngredientManager.create(CSV_PATH);
+        ReceiptManager receiptManager = ReceiptManager.create("src/receipts.csv");
 
         Machine[] stations = {
             new MixtureMachine("MIM001", "Mixxi 3000", "Bosch"),
@@ -38,12 +33,11 @@ public class Application {
             new DispensingMachine("DIM001", "Dispensi 3000", "Bosch")
         };
 
-        inventoryManager.importDelivery("src/inventory2.csv");
-        ArrayList<String> ingredientIds = inventoryManager.getIngredientIds();
-        inventoryManager.displayStockLevels();
-        inventoryManager.checkExpirationIngredients(ingredientIds);
+        ingredientManager.importDelivery("src/inventory2.csv");
+        ArrayList<String> ingredientIds = ingredientManager.getIngredientIds();
+        ingredientManager.displayStockLevels();
+        ingredientManager.checkExpirationIngredients(ingredientIds);
 
-        ReceiptManager receiptManager = ReceiptManager.create("src/receipts.csv");
         ArrayList<String> receiptIds = receiptManager.getReceiptIds();
 
         // customized receipt 1
@@ -52,7 +46,7 @@ public class Application {
         ingredientsForCustomOrder1.put("F001", 2);
         ingredientsForCustomOrder1.put("S001", 3);
         ingredientsForCustomOrder1.put("S002", 4);
-        Receipt customizedReceipt1 = Order.getCustomReceipt(ingredientsForCustomOrder1);
+        Receipt customizedReceipt1 = Receipt.getCustomReceipt(ingredientsForCustomOrder1);
 
         // customized receipt 2
         HashMap<String, Integer> ingredientsForCustomOrder2 = new HashMap<>();
@@ -60,7 +54,7 @@ public class Application {
         ingredientsForCustomOrder2.put("D001", 6);
         ingredientsForCustomOrder2.put("V001", 7);
         ingredientsForCustomOrder2.put("E001", 8);
-        Receipt customizedReceipt2 = Order.getCustomReceipt(ingredientsForCustomOrder2);
+        Receipt customizedReceipt2 = Receipt.getCustomReceipt(ingredientsForCustomOrder2);
 
         // build order
         Receipt receiptHazelnutIceCream = receiptManager.getReceipts().get(receiptIds.getFirst());
@@ -72,7 +66,12 @@ public class Application {
                 .receipts(receiptsForOrder)
                 .build();
 
-        log.info("Order 1: " + order1);
+        // produce order
+        MixtureMachine mixture = new MixtureMachine("MIM001", "Mixxi 3000", "Bosch");
+        mixture.startOrder(order1, ingredientManager);
+
+
+        log.info("end");
 
     }
 

@@ -3,6 +3,7 @@ package ingredient;
 import lombok.Data;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import receipt.Receipt;
 
 import java.io.BufferedReader;
 import java.nio.file.Files;
@@ -13,15 +14,15 @@ import java.util.*;
 @Slf4j
 @Data
 public class IngredientManager {
-    private final Map<String, Ingredient> inventory;
+    private final Map<String, Ingredient> ingredientManager;
 
     @SneakyThrows
     public static IngredientManager create(String csvPath) {
-        Map<String, Ingredient> inventory = new HashMap<>();
+        Map<String, Ingredient> ingredientManager = new HashMap<>();
         try (BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(csvPath))){
             bufferedReader.lines().skip(1).forEach(line -> {
                 String[] data = line.split(",");
-                inventory.put(data[0], Ingredient.builder()
+                ingredientManager.put(data[0], Ingredient.builder()
                         .id(data[0])
                         .name(data[1])
                         .expirationDate(LocalDate.parse(data[2]))
@@ -30,7 +31,7 @@ public class IngredientManager {
                         .build());
             });
         }
-        return new IngredientManager(inventory);
+        return new IngredientManager(ingredientManager);
     }
 
 
@@ -39,7 +40,7 @@ public class IngredientManager {
         try (BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(csvPath))){
             bufferedReader.lines().skip(1).forEach(line -> {
                 String[] data = line.split(",");
-                inventory.merge(
+                ingredientManager.merge(
                         data[0],
                         Ingredient.builder()
                                 .id(data[0])
@@ -58,12 +59,12 @@ public class IngredientManager {
                 );
             });
         }
-        return new IngredientManager(inventory);
+        return new IngredientManager(ingredientManager);
     }
 
     public ArrayList<String> getIngredientIds() {
         ArrayList<String> ingredientIds = new ArrayList<>();
-        for (Map.Entry<String, Ingredient> entry : inventory.entrySet()) {
+        for (Map.Entry<String, Ingredient> entry : ingredientManager.entrySet()) {
             ingredientIds.add(entry.getKey());
         }
         return ingredientIds;
@@ -74,9 +75,9 @@ public class IngredientManager {
         log.info("--- current ingredient expirations ---");
         for (String ingredientId : ingredientIds) {
             LocalDate today = LocalDate.now();
-            LocalDate ingredientExpirationDate = inventory.get(ingredientId).getExpirationDate();
-            String name = inventory.get(ingredientId).getName();
-            int stockCount = inventory.get(ingredientId).getStockCount();
+            LocalDate ingredientExpirationDate = ingredientManager.get(ingredientId).getExpirationDate();
+            String name = ingredientManager.get(ingredientId).getName();
+            int stockCount = ingredientManager.get(ingredientId).getStockCount();
             long difference = ingredientExpirationDate.toEpochDay() - today.toEpochDay();
 
             if (difference >= 0) {
@@ -84,22 +85,48 @@ public class IngredientManager {
             }
             else {
                 log.info("ingredient {} ({}) has been expired for {} days", ingredientId, name, Math.abs(difference));
-                inventory.remove(ingredientId);
-                log.info("ingredient {} ({}) has been removed out of inventory with stock count {}",
+                ingredientManager.remove(ingredientId);
+                log.info("ingredient {} ({}) has been removed out of ingredientManager with stock count {}",
                         ingredientId, name, stockCount);
             }
         }
     }
 
-
     public void displayStockLevels() {
         log.info("--- current stock levels ---");
-        inventory.values().stream().sorted(
+        ingredientManager.values().stream().sorted(
             Comparator.comparing(Ingredient::getName))
                 .forEach(a -> log.info("{}: {}", a.getName(), a.getStockCount()));
     }
 
+    public boolean isReceiptProcessable(Receipt receipt) {
+        for (Map.Entry<String, Integer> ingredientWithCount : receipt.getIngredientsWithCount().entrySet()) {
+            if (!(isIngredientAvailable(ingredientWithCount.getKey(), ingredientWithCount.getValue()))) {
+                log.info("receipt {} ({}) is not available", receipt.getName(), receipt.getId());
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isIngredientAvailable(String ingredientId, int requiredStockCount) {
+        boolean isListed = ingredientManager.containsKey(ingredientId);
+        if (!isListed) {
+            log.info("Ingredient {} is not listed in our inventory.", ingredientId);
+            return false;
+        }
+
+        int stockCount = ingredientManager.get(ingredientId).getStockCount();
+        boolean isSufficient = stockCount >= requiredStockCount;
+        if (!isSufficient) {
+            log.info("Ingredient {} is not sufficient ({} instead of {}).",
+                    ingredientId, stockCount, requiredStockCount);
+        }
+        return isSufficient;
+    }
+
     // validierung von rezept und menge in inventar
+    // Bestand verringern bei abgelaufenen?
     // OPTIONAL: HashMap als CSV zwischenspeichern nach aktualisierung des inventars
 
 }

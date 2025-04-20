@@ -1,15 +1,14 @@
 package shared;
 
-import container.ContainerType;
 import lombok.Data;
 import java.util.NoSuchElementException;
 
 @Data
-public class Stack<T> {
+public class MyStack<T> {
     private final Object[] elements;
     private int top;
 
-    public Stack(int capacity) {
+    public MyStack(int capacity) {
         if (capacity <= 0) throw new IllegalArgumentException("capacity must be positive");
         this.elements = new Object[capacity];
         this.top = -1; // empty stack marker
