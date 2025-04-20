@@ -1,0 +1,10 @@
+id,name,expirationDate,price,stockCount
+C002,White Chocolate Chips,2025-05-14,4,75,400
+C001,Dark Chocolate Chips,2025-05-14,4,75,400
+D002,Big Waffle Decoration,2025-09-12,2,80,200
+D001,Small Waffle Decoration,2025-09-12,1,80,200
+M001,Milk Ice Cream Base,2025-05-15,5,50,995
+S001,Chocolate Sauce,2025-08-13,2,50,270
+S002,Vanilla Sauce,2025-08-13,3,50,260
+F001,Strawberry Fruit Puree,2025-06-14,3,20,590
+F002,Raspberry Fruit Puree,2025-06-14,4,20,600
