@@ -1,6 +1,6 @@
 package receipt;
 
-import ingredient.Ingredient;
+import container.ContainerType;
 import lombok.Data;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,6 @@ import java.io.BufferedReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Stream;
 
 @Slf4j
 @Data
@@ -47,6 +46,7 @@ public class ReceiptManager {
                             .name(name)
                             .price(price)
                             .ingredientsWithCount(ingredients)
+                            .containerType(ContainerType.SUNDAE)
                             .build();
 
                     receipts.put(id, newReceipt);

@@ -2,6 +2,7 @@
 
 package order;
 
+import container.ContainerType;
 import lombok.Builder;
 import lombok.Data;
 import receipt.Receipt;

@@ -1,11 +1,5 @@
 package main;
 
-/*
-    Ab 20 Minuten stillstand --> Termin vereinbaren und Hilfe anfordern
-    Teams mit Matrikelnummer anmelden
-    Lineare Maschinen --> Auslastung auf Basis der benutzen Maschinen
- */
-
 import lombok.extern.slf4j.Slf4j;
 import order.Order;
 import receipt.Receipt;
@@ -56,7 +50,7 @@ public class Application {
         ingredientsForCustomOrder2.put("E001", 8);
         Receipt customizedReceipt2 = Receipt.getCustomReceipt(ingredientsForCustomOrder2);
 
-        // build order
+        // build example order
         Receipt receiptHazelnutIceCream = receiptManager.getReceipts().get(receiptIds.getFirst());
         ArrayList<Receipt> receiptsForOrder = new ArrayList<>();
         receiptsForOrder.add(receiptHazelnutIceCream);
@@ -66,13 +60,18 @@ public class Application {
                 .receipts(receiptsForOrder)
                 .build();
 
-        // produce order
-        MixtureMachine mixture = new MixtureMachine("MIM001", "Mixxi 3000", "Bosch");
-        mixture.startOrder(order1, ingredientManager);
+        // collect orders
+        ArrayList<Order> orders = new ArrayList<>();
+        orders.add(order1);
 
-
+        // produce orders
+        for(Order order : orders) {
+            for (Machine machine : stations) {
+                log.info("==== STARTING {} ====", machine.getClass().getSimpleName().toUpperCase());
+                machine.startOrder(order1, ingredientManager);
+            }
+        }
         log.info("end");
 
     }
-
 }

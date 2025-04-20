@@ -1,9 +1,12 @@
 package container;
 
-import lombok.Data;
+import ingredient.Ingredient;
+import lombok.Builder;
 
-@Data
+import java.util.ArrayList;
+
+@Builder
 public class Container {
     private final ContainerType containerType;
-
+    private final ArrayList<Ingredient> ingredients;
 }

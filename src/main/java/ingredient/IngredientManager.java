@@ -22,6 +22,7 @@ public class IngredientManager {
         try (BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(csvPath))){
             bufferedReader.lines().skip(1).forEach(line -> {
                 String[] data = line.split(",");
+                // KOMMENTAR: Leerzeilen werden nicht gehandelt
                 ingredientManager.put(data[0], Ingredient.builder()
                         .id(data[0])
                         .name(data[1])
@@ -99,7 +100,29 @@ public class IngredientManager {
                 .forEach(a -> log.info("{}: {}", a.getName(), a.getStockCount()));
     }
 
-    public boolean isReceiptProcessable(Receipt receipt) {
+    public void reduceStockCount(IngredientManager ingredientManager, String ingredientId, int reduceStockCount) {
+        ingredientManager.getIngredientManager().get(ingredientId)
+                .setStockCount(ingredientManager.getIngredientManager()
+                .get(ingredientId).getStockCount() - reduceStockCount);
+        String name = ingredientManager.getIngredientManager().get(ingredientId).getName();
+        log.info("inventory updated: ingredient {} ({}) has been reduced by {}",
+                name, ingredientId, reduceStockCount);
+    }
+
+    /*
+    public void reduceStockCountForReceipt(IngredientManager ingredientManager, Receipt receipt) {
+        for (Map.Entry<String, Integer> ingredientWithCount : receipt.getIngredientsWithCount().entrySet()) {
+            ingredientManager.getIngredientManager().get(ingredientWithCount.getKey())
+                    .setStockCount(ingredientManager.getIngredientManager()
+                            .get(ingredientWithCount.getKey()).getStockCount() - ingredientWithCount.getValue());
+            String name = ingredientManager.getIngredientManager().get(ingredientWithCount.getKey()).getName();
+            log.info("inventory updated: ingredient {} ({}) has been reduced by {}",
+                    name, ingredientWithCount.getKey(), ingredientWithCount.getValue());
+        }
+    }
+     */
+
+    public boolean isReceiptProcessable(IngredientManager ingredientManager, Receipt receipt) {
         for (Map.Entry<String, Integer> ingredientWithCount : receipt.getIngredientsWithCount().entrySet()) {
             if (!(isIngredientAvailable(ingredientWithCount.getKey(), ingredientWithCount.getValue()))) {
                 log.info("receipt {} ({}) is not available", receipt.getName(), receipt.getId());
