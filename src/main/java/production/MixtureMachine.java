@@ -24,22 +24,17 @@ public class MixtureMachine extends Machine {
                 continue;
             }
 
-            // Fill mixture machine with base ingredients
             String ingredientNames = "";
             for (Map.Entry<String, Integer> ingredientWithCount : receipt.getIngredientsWithCount().entrySet()) {
                 char identificationChar = ingredientWithCount.getKey().charAt(0);
                 if (!(identificationChar == 'M' || identificationChar == 'F' || identificationChar == 'S')) {
                     continue;
                 }
-                
-                // Add to container (Stack)
                 this.container.push(ingredientWithCount);
-                
-                // Reduce stock
                 ingredientManager.reduceStockCount(ingredientWithCount.getKey(), ingredientWithCount.getValue());
                 
                 String name = ingredientManager.getIngredientManager().get(ingredientWithCount.getKey()).getName();
-                ingredientNames += name + ", ";
+                ingredientNames = ingredientNames.concat(ingredientNames + name + ", ");
                 log.info("ingredient {} ({}) has been processed with count {} in mixture machine.",
                         name, ingredientWithCount.getKey(), ingredientWithCount.getValue());
             }
@@ -51,8 +46,6 @@ public class MixtureMachine extends Machine {
             
             log.info("mixing finished for receipt: {} ({})", receipt.getName(), receipt.getId());
         }
-        
-        // Remove unavailable receipts from order
         for (Receipt receipt : unavailableReceipts) {
             receipts.remove(receipt);
         }

@@ -40,10 +40,7 @@ public class Receipt {
     }
     
     private static double calculatePrice(HashMap<String, Integer> ingredients) {
-        // Base price
         double basePrice = 2.50;
-        
-        // Add 1.00 for each ingredient
         return basePrice + ingredients.size() * 1.00;
     }
 }

@@ -37,12 +37,10 @@ public class ReceiptManager {
                         containerType = "CONE".equalsIgnoreCase(data[5]) ? ContainerType.CONE : ContainerType.SUNDAE;
                     }
 
-                    // If recipe already exists, expand ingredient list
                     Receipt existing = receipts.get(id);
                     if (existing != null) {
                         existing.getIngredientsWithCount().put(ingredientId, ingredientCount);
                     } else {
-                        // Create new ingredient list
                         Map<String, Integer> ingredients = new HashMap<>();
                         ingredients.put(ingredientId, ingredientCount);
 
@@ -71,24 +69,5 @@ public class ReceiptManager {
                     receipt.getPrice(),
                     receipt.getIngredientsWithCount().size());
         }
-    }
-
-    public Receipt createCustomReceipt(Map<String, Integer> ingredients, ContainerType containerType) {
-        return Receipt.builder()
-                .id("CUS" + UUID.randomUUID().toString().substring(0, 8))
-                .name("Custom Recipe")
-                .price(calculateCustomPrice(ingredients))
-                .ingredientsWithCount(ingredients)
-                .containerType(containerType)
-                .build();
-    }
-
-    private double calculateCustomPrice(Map<String, Integer> ingredients) {
-        double basePrice = 2.0;
-
-        // Add up ingredient quantities
-        int totalIngredients = ingredients.values().stream().mapToInt(Integer::intValue).sum();
-
-        return basePrice + (totalIngredients * 0.5);
     }
 }

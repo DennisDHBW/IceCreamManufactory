@@ -27,20 +27,20 @@ public class Order {
     }
 
     public static Order generateSampleOrder() {
-        // Generate a random order ID
         String orderId = "ORD-" + UUID.randomUUID().toString().substring(0, 6);
 
-        // Create custom receipt with ingredients
+        // create custom receipt
         HashMap<String, Integer> ingredientsForCustomOrder = new HashMap<>();
-        ingredientsForCustomOrder.put("M001", 1); // Milk base
-        ingredientsForCustomOrder.put("F001", 2); // Fruit ingredient
-        ingredientsForCustomOrder.put("S001", 1); // Sauce
-        ingredientsForCustomOrder.put("S002", 1); // Another sauce
-        ingredientsForCustomOrder.put("D001", 1); // Decoration
+        ingredientsForCustomOrder.put("M001", 1);
+        ingredientsForCustomOrder.put("F001", 2);
+        ingredientsForCustomOrder.put("S001", 1);
+        ingredientsForCustomOrder.put("S002", 1);
+        ingredientsForCustomOrder.put("D001", 1);
         Receipt customizedReceipt = Receipt.getCustomReceipt(ingredientsForCustomOrder);
 
         // build order
         ArrayList<Receipt> receiptsForOrder = new ArrayList<>();
+        receiptsForOrder.add(customizedReceipt);
         receiptsForOrder.add(customizedReceipt);
 
         return Order.builder()

@@ -20,14 +20,14 @@ public class Application {
 
         log.info("===== STARTING ICE CREAM PRODUCTION SYSTEM =====");
 
-        // Initialize ingredient and recipe management
+        // initialize ingredient and recipe management
         log.info("Loading inventory from {}", INVENTORY_CSV_PATH);
         IngredientManager ingredientManager = IngredientManager.create(INVENTORY_CSV_PATH);
 
         log.info("Loading recipes from {}", RECEIPTS_CSV_PATH);
         ReceiptManager receiptManager = ReceiptManager.create(RECEIPTS_CSV_PATH);
 
-        // Create production line with fixed stations (using Array for fixed production line)
+        // create production line
         log.info("Setting up production line machines");
         Machine[] productionLine = {
                 new MixtureMachine("MIX001", "Mixxi 3000", "Bosch"),
@@ -38,24 +38,20 @@ public class Application {
                 new DispensingMachine("DIS001", "Dispensi 3000", "Bosch")
         };
 
-        // Import new inventory delivery
+        // import delivery
         log.info("Processing new inventory delivery from {}", DELIVERY_CSV_PATH);
         ingredientManager.importDelivery(DELIVERY_CSV_PATH);
-
-        // Display and check inventory
         ingredientManager.displayStockLevels();
         ingredientManager.checkExpirationIngredients();
-
-        // Get available recipes
         log.info("Available recipes: {}", receiptManager.getReceipts().size());
         receiptManager.displayAvailableRecipes();
 
-        // Create customer queue
+        // create customer queue
         log.info("Creating customer queue with {} customers", CUSTOMER_COUNT);
         CustomerManager customerManager = new CustomerManager(ingredientManager.getIngredientIds(), CUSTOMER_COUNT);
         log.info("Customer queue size: {}", customerManager.getQueueSize());
 
-        // Process customers from queue
+        // process customers from queue
         log.info("===== STARTING CUSTOMER ORDER PROCESSING =====");
         Customer customer;
         int customerIndex = 1;
@@ -64,7 +60,6 @@ public class Application {
             log.info("Customer: {}", customer.getName());
             Order customerOrder = customer.getOrder();
 
-            // Process the order through each machine in the production line
             for (Machine machine : productionLine) {
                 log.info("==== STARTING {} ====", machine.getClass().getSimpleName().toUpperCase());
                 machine.startOrder(customerOrder, ingredientManager);
@@ -73,7 +68,6 @@ public class Application {
             log.info("===== COMPLETED ORDER FOR CUSTOMER {} =====", customer.getName());
         }
 
-        // Save updated inventory status
         ingredientManager.saveInventoryToCSV(INVENTORY_BACKUP_CSV);
         log.info("Inventory saved to {}", INVENTORY_BACKUP_CSV);
         log.info("===== ICE CREAM PRODUCTION COMPLETED =====");

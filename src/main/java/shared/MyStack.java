@@ -11,7 +11,7 @@ public class MyStack<T> {
     public MyStack(int capacity) {
         if (capacity <= 0) throw new IllegalArgumentException("capacity must be positive");
         this.elements = new Object[capacity];
-        this.top = -1; // empty stack marker
+        this.top = -1;
     }
 
     public void push(T item) {
@@ -21,9 +21,8 @@ public class MyStack<T> {
 
     public T pop() {
         if (isEmpty()) throw new NoSuchElementException("stack underflow");
-        @SuppressWarnings("unchecked")
-        T item = (T) elements[top];
-        elements[top--] = null; // prevent memory leak
+        @SuppressWarnings("unchecked") T item = (T) elements[top];
+        elements[top--] = null;
         return item;
     }
 
